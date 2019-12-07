@@ -1,11 +1,51 @@
 <html>
 <head>
+    <script type="text/javascript" src="peer.js"></script>
     <script>
+        var peer = null
+        var conn = null
+        function register() {
+            var obj = { "peerConfig":{
+                    host: '127.0.0.1',
+                    secure: false,
+                    port: 9000,
+                    debug: 3,
+                    connectErrFunction: function(){
+                        alert("连接游戏服务器失败");
+                    },
+            }}
+            peer = new Peer(document.getElementById("connectid").value,obj.peerConfig);
+
+            peer.on('open', function (id) {
+                document.getElementById("showid").innerHTML=peer.id
+            });
+
+            peer.on('connection', function (c) { //自己的对象，接收对方发来的消息
+                alert("connect success")
+                c.on('data', function(data){
+                    alert(data)
+                });
+            });
+        }
+
+        function send()
+        {
+            conn.send( document.getElementById("connectid").value)
+        }
+
+        function connect()
+        {
+            var id = document.getElementById("connectid").value
+            conn = peer.connect(id); //对方的对象，用来给对方发消息
+        }
 
     </script>
 </head>
+<body>
+
 <button onclick="connect()">connect1</button>
 <button onclick="send()">Send</button>
+<button onclick="register()">Register</button>
 <p id="showid"></p>
 <input id="connectid"/>
 
