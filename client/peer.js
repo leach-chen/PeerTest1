@@ -937,6 +937,9 @@ Peer.prototype._handleMessage = function(message) {
         }
       }
       break;
+    case 'FOLLOW': /////////////////////////////leach chen add on 2019-12-07
+      this.emit('FOLLOW', message.users);
+      break;
     default:
       if (!payload) {
         util.warn('You received a malformed message from ' + peer + ' of type ' + type);

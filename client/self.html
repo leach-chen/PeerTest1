@@ -18,10 +18,13 @@
 
             peer.on('open', function (id) {
                 document.getElementById("showid").innerHTML=peer.id
+                peer.on('FOLLOW', function (data) {
+                    alert(data)
+                });
             });
 
             peer.on('connection', function (c) { //自己的对象，接收对方发来的消息
-                alert("connect success")
+                //alert("connect success")
                 c.on('data', function(data){
                     alert(data)
                 });
